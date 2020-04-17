@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,28 +10,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="/dashboard"><i class="fas fa-crown"></i> Dashboard</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarColor03">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="">Manage Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Statistics</a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item">
-                <a  class="nav-link" th:href="@{'/logout_admin'}">Log out</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div th:replace="fragments :: admin-header"></div>
 
 <div class="container-fluid mx-auto mt-5">
     <h1 class="text-center">Conferences</h1>
@@ -43,41 +23,52 @@
 
         <thead class="thead">
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Details</th>
-            <th scope="col">Topics</th>
-            <th scope="col">Date</th>
+            <th scope="col" style="width: 17%">Theme</th>
+            <th scope="col" style="width: 38%">Description</th>
+            <th scope="col" style="width: 15%">Venue</th>
+            <th scope="col" style="width: 10%">Start Date</th>
+            <th scope="col" style="width: 10%">End Date</th>
 
-            <th></th>
-            <th><a class="btn btn-primary btn-sm" href="/conference-add">Add</a></th>
+            <th style="width: 5%"></th>
 
+            <!--See only 'ADMIN'-->
+            <div sec:authorize="hasAnyAuthority('ADMIN')">
+                <th style="width: 5%"><a class="btn btn-primary btn-sm" href="/staff/conference-add" data-toggle="tooltip"
+                       title="Add new conference">Add</a></th>
+            </div>
+            <!---->
         </tr>
         </thead>
 
         <tbody>
+        <tr th:each="conf:${conferences}">
+            <!--Link /conference-dashboard for staff to manage topics start/end and see questions-->
 
-            <tr>
-<!--Link /conference-dashboard for staff to manage topics start/end and see questions-->
-                <th scope="row"><a href="/conference-dashboard">Conf name</a></th>
-                <td>Super popular and informative description</td>
-                <td>10</td>
-                <td>10 Apr</td>
+            <th scope="row">
+                <a th:href="@{'/staff/conference-page/' + ${conf.getId()}}" th:text="${conf.getTheme()}"
+                   data-toggle="tooltip" title="View conferences topics"></a>
+            </th>
 
-                <td><a class="btn btn-danger btn-sm" href="#" value="" name=""><i class="fas fa-skull-crossbones"></i></a></td>
-                <td><a class="btn btn-success btn-sm" href="/conference-page">Edit</a></td>
+            <td th:text="${conf.getDescription()}"></td>
+            <td th:text = "${conf.getAddress()}"></td>
+            <td th:text="${#temporals.format(conf.getStart(), 'dd-MM-yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(conf.getEnd(), 'dd-MM-yyyy HH:mm')}"></td>
 
-            </tr>
-            <tr>
-<!--Link /conference-dashboard for staff to manage topics start/end and see questions-->
-                <th scope="row"><a href="/conference-dashboard">Big Data Conference</a></th>
-                <td>Big Data Conference Europe is a three-day conference with technical talks in the fields of Big Data,</td>
-                <td>7</td>
-                <td>26 Apr</td>
+            <div sec:authorize="hasAnyAuthority('ADMIN')">
+                <td>
+                    <a class="btn btn-danger btn-sm" th:href="@{'/staff/delete-conference/' + ${conf.getId()}}"
+                       data-toggle="tooltip" title="Delete conference">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </a>
+                </td>
+            </div>
 
-                <td><a class="btn btn-danger btn-sm" href="#" value="" name=""><i class="fas fa-skull-crossbones"></i></a></td>
-                <td><a class="btn btn-success btn-sm" href="/conference-page">Edit</a></td>
+            <td><a class="btn btn-success btn-sm"
+                   th:href="@{'/staff/conference-edit/' + ${conf.getId()}}" data-toggle="tooltip"
+                   title="Edit conference">Edit</a>
+            </td>
 
-            </tr>
+        </tr>
 
         </tbody>
     </table>

@@ -1,6 +1,7 @@
 package com.advcourse.conferenceassistant.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,8 +22,10 @@ public class Topic {
     private String speakerdesc;
     private LocalDateTime start;
     private LocalDateTime end;
+    private Boolean ended = false;
+
 
     @ManyToOne
-    private Conference conf;
+    private Conference conference;
 
 }

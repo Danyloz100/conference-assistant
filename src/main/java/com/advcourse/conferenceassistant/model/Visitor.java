@@ -3,6 +3,7 @@ package com.advcourse.conferenceassistant.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,10 +22,18 @@ public class Visitor {
     private String email;
     private String name;
 
-    @ManyToOne
-    private Conference visit;
+    @ManyToMany
+    @JoinTable(
+            name = "Visitor_Conference",
+            joinColumns = { @JoinColumn(name = "visitor_id") },
+            inverseJoinColumns = { @JoinColumn(name = "conf_id") }
+    )
+    private Set<Conference> visit;
 
-    @ManyToMany(mappedBy = "likes")
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "likes_question",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id"))
     private Set<Question> liked;
 
     @Override

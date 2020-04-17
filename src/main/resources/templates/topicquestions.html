@@ -12,61 +12,52 @@
 <body>
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href=""><i class="fab fa-napster"></i> LIVE Conference</a>
-    <i class="navbar-brand" th:text="${cookieValue}"> Visitor email</i>
-    <a class="navbar-brand" th:href="@{'/logout/'+${conferenceId}}"> <i class="far fa-sad-tear"></i> Leave</a>
+    <p>Welcome <i class="" th:text="${visitor.getUserName()}">Visitor</i>!</p>
+    <a class="navbar-brand" th:href="@{'/liveconference/logout/'+${topic.confId}}"> <i class="far fa-sad-tear"></i> Leave</a>
 
 </nav>
 <nav class="nav py-3 justify-content-center">
 
     <div class="col-sm-8 mx-auto py-3">
 
-        <h3 class="text-center h3 py-3">CONFERENCE NAME</h3>
+        <h3 class="text-center h3 py-3" th:text="${conference.getTheme()}">CONFERENCE NAME</h3>
         <ul class="nav mx-auto">
-            <li class="nav-item h4 text-center mx-auto"><span style="color: green"><i
-                    class="fab fa-rocketchat"></i></span> NOW: Current Topic Name <a class="btn btn-outline-info"
-                                                                                     href="/schedule">Schedule</a></li>
+            <li class="nav-item h4 text-center mx-auto"><span style="color: green;"><i
+                    class="fab fa-rocketchat"></i></span> NOW: <h2 th:text="${topic.getTheme()}"></h2> <a class="btn btn-outline-info"
+                                                                                                          th:href="'/liveconference/now/' + ${conference.getId()} + '/schedule'">Schedule</a></li>
         </ul>
-        <p class="px-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-            the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged.</p>
+        <p class="px-3" th:text="${topic.getDescription()}">No description available</p>
     </div>
 
 </nav>
 <div class="container-fluid py-2">
     <h3 class="h3 text-center pt-2">Top questions</h3>
-    <p class="text-center">for current topic</p>
     <div class="border bg-light col-sm-8 mx-auto">
-
         <div class="table-responsive text-nowrap">
             <table class="table table-borderless">
                 <thead>
                 <tr>
-                    <th scope="col" style="width: 10%">Likes</th>
-                    <th scope="col" style="width: 50%">Question</th>
-                    <th scope="col" style="width: 20%">UserName</th>
-                    <th scope="col" style="width: 20%">Date (sort)</th>
+                    <th scope="col" style="width: 10%;">Likes</th>
+                    <th scope="col" style="width: 50%;">Question</th>
+                    <th scope="col" style="width: 20%;">User</th>
+                    <th scope="col" style="width: 20%;">Time</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 51</th>
-                    <td>Question first text</td>
-                    <td>Otto</td>
-                    <td>18:36 01-02-2019</td>
+                <tr th:each="tq : ${topquestions}">
+                    <td>
+                        <div th:if="${tq.isLikedByThisVisitor}">
+                            <a style="color: darkred;" th:href="'/question/unlike/' + ${tq.getId()}"><i class="fas fa-heart"></i></a> <span th:text="${tq.getLikesQuantity()}"></span>
+                        </div>
+                        <div th:if="${!tq.isLikedByThisVisitor}">
+                            <a th:href="'/question/like/' + ${tq.getId()}"><i class="far fa-heart"></i> </a><span th:text="${tq.getLikesQuantity()}"></span>
+                        </div>
+                    </td>
+                    <td th:text="${tq.getQuestion()}"></td>
+                    <td th:text="${tq.getCreatorName()}"></td>
+                    <td th:text="${#temporals.format(tq.getTime(), 'HH:mm:ss')} + ' ' + ${tq.getTime().getDayOfMonth()} + ' ' + ${tq.getTime().getMonth()}"></td>
                 </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 30</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><span style="color: darkred"><i class="fas fa-heart"></i></span> 22</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:41 01-02-2019</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
@@ -76,90 +67,28 @@
 <div class="container-fluid py-3 all-questions-block">
     <h3 class="h3 text-center pt-2">All questions</h3>
     <p class="text-center">for current topic</p>
-    <div class="border col-sm-8 mx-auto py-1" style="height: 300px; overflow-y: scroll; overflow-x: hidden;">
+    <div class="border col-sm-10 mx-auto py-1" style="height: 300px; overflow-y: scroll; overflow-x: hidden;">
 
         <div class="table-responsive text-nowrap">
             <table class="table table-borderless table-fixed">
                 <thead>
                 <tr class="table-info">
-                    <th scope="col" style="width: 10%">Likes</th>
-                    <th scope="col" style="width: 50%">Question</th>
-                    <th scope="col" style="width: 20%">UserName</th>
-                    <th scope="col" style="width: 20%">Date (sort)</th>
+                    <th scope="col" style="width: 1%;">Likes</th>
+                    <th style="width: 9%;"></th>
+                    <th scope="col" style="width: 50%;">Question</th>
+                    <th scope="col" style="width: 20%;">User</th>
+                    <th scope="col" style="width: 20%;">Time</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 7</th>
-                    <td>Question first text</td>
-                    <td>Otto</td>
-                    <td>18:36 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 9</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><span style="color: darkred"><i class="fas fa-heart"></i></span> 5</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:41 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 10</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:57 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><span style="color: darkred"><i class="fas fa-heart"></i></span> 11</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:45 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 2</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:51 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 5</th>
-                    <td>Question 3 text</td>
-                    <td>the Bird</td>
-                    <td>18:56 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 13</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 8</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 8</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 8</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
-                </tr>
-                <tr>
-                    <th scope="row"><i class="far fa-heart"></i> 8</th>
-                    <td>Question 2 text</td>
-                    <td>Thornton</td>
-                    <td>18:38 01-02-2019</td>
+                <tr th:each="q : ${questions}">
+                    <th scope="row" th:text="${q.getLikesQuantity()}"></th>
+                    <td> <div th:if="${q.isLikedByThisVisitor}"><a style="color: darkred;" th:href="'/question/unlike/' + ${q.getId()}"><i class="fas fa-heart"></i></a></div>
+                        <div th:if="${!q.isLikedByThisVisitor}"><a th:href="'/question/like/' + ${q.getId()}"><i class="far fa-heart"></i></a></div>
+                    </td>
+                    <td th:text="${q.getQuestion()}"></td>
+                    <td th:text="${q.getCreatorName()}"></td>
+                    <td th:text="${#temporals.format(q.getTime(), 'HH:mm:ss')} + ' ' + ${q.getTime().getDayOfMonth()} + ' ' + ${q.getTime().getMonth()}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -173,15 +102,17 @@
 </div>
 <div class="container-fluid py-1 fixed-bottom bg-light">
     <div class=" col-sm-6 mx-auto py-1">
-        <form action="POST" class="form-inline mx-auto">
-            <textarea class="form-control" rows="2" style="float: left; width: 80%"></textarea>
-            <button type="submit" class="btn btn-success px-2 mx-1" style="height: 50px; width: 15%"><i
+        <form th:action="'/question/' + ${topic.getId()} + '/add-question'" method="POST" class="form-inline mx-auto">
+            <textarea class="form-control" th:name="question" rows="2" style="float: left; width: 80%;" required></textarea>
+            <input type="hidden" th:name="topicId" th:value="${topic.getId()}">
+            <input type="hidden" th:name="creatorId" th:value="${visitor.getId()}">
+            <input type="hidden" th:name="answerStatus" th:value="false">
+            <button type="submit" class="btn btn-success px-2 mx-1" style="height: 50px; width: 15%;"><i
                     class="fas fa-chevron-right"></i></button>
         </form>
     </div>
+</div>
+</body>
 
 
-    <div>
-
-    </div>
 </html>
