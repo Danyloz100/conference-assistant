@@ -1,3 +1,4 @@
+/*
 package com.advcourse.conferenceassistant.config;
 
 import com.advcourse.conferenceassistant.model.*;
@@ -216,6 +217,7 @@ public class DatabaseInitials {
 
             Question question1 = new Question();
             question1.setQuestion("What is the biggest challenge you had in your practice?");
+            question1.setAnswerStatus(false);
             question1.setTopic(topic1);
             question1.setTime(LocalDateTime.now());
             question1.setAuthor(visitor1);
@@ -237,6 +239,7 @@ public class DatabaseInitials {
 
             Question question2 = new Question();
             question2.setQuestion("What should I do next, right after this lecture, to become an AI pro?");
+            question2.setAnswerStatus(false);
             question2.setTopic(topic2);
             question2.setTime(LocalDateTime.now());
             question2.setAuthor(visitor2);
@@ -256,6 +259,7 @@ public class DatabaseInitials {
 
             Question question3 = new Question();
             question3.setQuestion("How actually lazy are you?");
+            question3.setAnswerStatus(false);
             question3.setTopic(topic3);
             question3.setTime(LocalDateTime.now());
             question3.setAuthor(visitor4);
@@ -264,6 +268,7 @@ public class DatabaseInitials {
 
             Question question33 = new Question();
             question33.setQuestion("What is the first you remeber from your childhood?");
+            question33.setAnswerStatus(false);
             question33.setTopic(topic3);
             question33.setTime(LocalDateTime.now());
             question33.setAuthor(visitor2);
@@ -273,6 +278,7 @@ public class DatabaseInitials {
 
             Question question31 = new Question();
             question31.setQuestion("WIs it a highest possible popularity level of this technology for now?");
+            question31.setAnswerStatus(false);
             question31.setTopic(topic3);
             question31.setTime(LocalDateTime.now());
             question31.setAuthor(visitor1);
@@ -281,6 +287,7 @@ public class DatabaseInitials {
 
             Question question99 = new Question();
             question99.setQuestion("What was the first book you read about it?");
+            question99.setAnswerStatus(false);
             question99.setTopic(topic3);
             question99.setTime(LocalDateTime.now());
             question99.setAuthor(visitor4);
@@ -299,6 +306,7 @@ public class DatabaseInitials {
 
             Question question4 = new Question();
             question4.setQuestion("Why cows???");
+            question4.setAnswerStatus(false);
             question4.setTopic(topic4);
             question4.setTime(LocalDateTime.now());
             question4.setAuthor(visitor5);
@@ -318,6 +326,7 @@ public class DatabaseInitials {
 
             Question question5 = new Question();
             question5.setQuestion("What is the most powerful AI tool provided by Miscrosoft?");
+            question5.setAnswerStatus(false);
             question5.setTopic(topic5);
             question5.setTime(LocalDateTime.now());
             question5.setAuthor(visitor6);
@@ -326,3 +335,4 @@ public class DatabaseInitials {
         };
     }
 }
+*/

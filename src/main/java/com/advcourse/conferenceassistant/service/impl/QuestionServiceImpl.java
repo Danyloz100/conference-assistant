@@ -142,7 +142,7 @@ public class QuestionServiceImpl implements QuestionService {
         log.debug("In mark as answered method for question id: " + questionId);
         Question question = questionRepository.findById(questionId);
         question.setAnswerStatus(true);
-        log.debug("Status of this question: " + question.isAnswerStatus());
+        log.debug("Status of this question: " + question.getAnswerStatus());
         questionRepository.save(question);
 
     }

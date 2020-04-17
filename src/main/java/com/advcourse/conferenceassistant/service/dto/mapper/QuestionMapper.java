@@ -18,7 +18,7 @@ public class QuestionMapper {
             e.getTime(),
             isLiked,
             liked,
-            e.isAnswerStatus());
+            e.getAnswerStatus());
 }
 
     public static Question fromDto(QuestionDto dto) {
@@ -29,7 +29,7 @@ public class QuestionMapper {
         q.setTime(dto.getTime());
         log.debug("Set time from dto: " + q.getTime());
         q.setAnswerStatus(dto.getAnswerStatus());
-        log.debug("Set statys drom dto: " + q.isAnswerStatus());
+        log.debug("Set statys drom dto: " + q.getAnswerStatus());
         Topic topic = new Topic();
         topic.setId(dto.getTopicId());
         q.setTopic(topic);
