@@ -1,1 +1,1 @@
-web : java $JAVA_OPTS -jar target/conference-assistant-0.0.3-SNAPSHOT.jar $JAR_OPTS
+web : java $JAVA_OPTS -jar target/conference-assistant-0.0.-SNAPSHOT.jar $JAR_OPTS
