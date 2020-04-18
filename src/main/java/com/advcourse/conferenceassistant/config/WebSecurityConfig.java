@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
                 .authorizeRequests()
 
                 //.antMatchers("/staff/topic-add/**", "/staff/dashboard", "/staff/conference-page/**", "/staff/conference-dashboard/**","/staff/topic-dashboard/**").authenticated()
@@ -60,6 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler());
+        http .requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
     }
 
     @Override
@@ -70,4 +74,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select email, pass, true from staff where email=?")
                 .authoritiesByUsernameQuery("select u.email, ur.roles from staff u inner join staff_role ur on u.id = ur.staff_id where u.email=?");
     }
+
 }
